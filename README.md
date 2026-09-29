@@ -16,6 +16,18 @@ A React + Vite app. Annotate a local file upload (with a real waveform, computed
 ### [`chrome-extension/`](./chrome-extension) — lives on open.spotify.com
 A Manifest V3 Chrome extension. Instead of a separate tab, it floats an annotate panel directly on Spotify's own page. You keep browsing and playing music exactly as you normally would; switching Spotify's own "Connect to a device" picker to **Liner Notes** routes playback through the extension, which follows along automatically — no in-extension search step at all.
 
+## Installing the Chrome extension
+
+This isn't published to the Chrome Web Store (that review takes days to weeks), so it installs the developer-mode way:
+
+1. Download the built extension from the [Releases page](https://github.com/negtambe/liner-notes/releases/latest) and unzip it.
+2. In Chrome, go to `chrome://extensions`.
+3. Turn on **Developer mode** (top right).
+4. Click **Load unpacked** and select the unzipped folder.
+5. Open [open.spotify.com](https://open.spotify.com), start playing something, then switch the device picker (bottom right of Spotify's player) to **Liner Notes**.
+
+Note: this extension logs in through my own Spotify developer app, which is in Development Mode and capped at 25 approved users — so a given Spotify account needs to be added by me before it can log in.
+
 ## What made the extension a real build, not a port
 
 - **Two isolated JS worlds, one bridge.** Spotify's Web Playback SDK has to run in the page's own JS context (`"world": "MAIN"` in the manifest) to behave like a real Spotify Connect device. The UI panel runs in the extension's isolated world for safety/sandboxing. Neither can see the other's variables, so every command (play/pause/seek) and every state update (position, track, pause state) crosses via `window.postMessage`.
